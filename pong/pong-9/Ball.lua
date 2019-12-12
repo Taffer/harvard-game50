@@ -41,7 +41,7 @@ function Ball:collides(paddle)
     -- edge of the other
     if self.y > paddle.y + paddle.height or paddle.y > self.y + self.height then
         return false
-    end 
+    end
 
     -- if the above aren't true, they're overlapping
     return true

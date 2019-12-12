@@ -16,9 +16,15 @@
 
     This version is built to more closely resemble the NES than
     the original Pong machines or the Atari 2600 in terms of
-    resolution, though in widescreen (16:9) so it looks nicer on 
+    resolution, though in widescreen (16:9) so it looks nicer on
     modern systems.
 ]]
+
+-- Don't do this in a "real" project, I've only done this so we don't need
+-- to have copies of the extra libraries in every directory. Best practice is
+-- to set things up so your project works with the default package.path, or
+-- to only add paths that are inside your package directory. - Chris H.
+package.path = package.path .. ';../../common/?/?.lua;../../common/?/init.lua'
 
 -- push is a library that will allow us to draw our game at a virtual
 -- resolution, instead of however large our window is; used to provide
@@ -69,7 +75,7 @@ function love.load()
 end
 
 --[[
-    Runs every frame, with "dt" passed in, our delta in seconds 
+    Runs every frame, with "dt" passed in, our delta in seconds
     since the last frame, which LÖVE2D supplies us.
 ]]
 function love.update(dt)
@@ -93,7 +99,7 @@ function love.update(dt)
 end
 
 --[[
-    Keyboard handling, called by LÖVE2D each frame; 
+    Keyboard handling, called by LÖVE2D each frame;
     passes in the key we pressed so we can access.
 ]]
 function love.keypressed(key)
@@ -105,7 +111,7 @@ function love.keypressed(key)
 end
 
 --[[
-    Called after update by LÖVE2D, used to draw anything to the screen, 
+    Called after update by LÖVE2D, used to draw anything to the screen,
     updated or otherwise.
 ]]
 function love.draw()
@@ -114,7 +120,7 @@ function love.draw()
 
     -- clear the screen with a specific color; in this case, a color similar
     -- to some versions of the original Pong
-    love.graphics.clear(40, 45, 52, 255)
+    love.graphics.clear(40/255, 45/255, 52/255, 255/255)
 
     -- draw welcome text toward the top of the screen
     love.graphics.setFont(smallFont)
@@ -123,7 +129,7 @@ function love.draw()
     -- draw score on the left and right center of the screen
     -- need to switch font to draw before actually printing
     love.graphics.setFont(scoreFont)
-    love.graphics.print(tostring(player1Score), VIRTUAL_WIDTH / 2 - 50, 
+    love.graphics.print(tostring(player1Score), VIRTUAL_WIDTH / 2 - 50,
         VIRTUAL_HEIGHT / 3)
     love.graphics.print(tostring(player2Score), VIRTUAL_WIDTH / 2 + 30,
         VIRTUAL_HEIGHT / 3)
