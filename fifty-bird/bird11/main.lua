@@ -8,14 +8,21 @@
     Author: Colton Ogden
     cogden@cs50.harvard.edu
 
-    A mobile game by Dong Nguyen that went viral in 2013, utilizing a very simple 
-    but effective gameplay mechanic of avoiding pipes indefinitely by just tapping 
-    the screen, making the player's bird avatar flap its wings and move upwards slightly. 
+    A mobile game by Dong Nguyen that went viral in 2013, utilizing a very simple
+    but effective gameplay mechanic of avoiding pipes indefinitely by just tapping
+    the screen, making the player's bird avatar flap its wings and move upwards slightly.
     A variant of popular games like "Helicopter Game" that floated around the internet
     for years prior. Illustrates some of the most basic procedural generation of game
     levels possible as by having pipes stick out of the ground by varying amounts, acting
     as an infinitely generated obstacle course for the player.
 ]]
+
+-- Don't do this in a "real" project, I've only done this so we don't need
+-- to have copies of the extra libraries in every directory. Best practice is
+-- to set things up so your project works with the default package.path, or
+-- to only add paths that are inside your package directory. - Chris H.
+package.path = package.path .. ';../../common/?/?.lua;../../common/?/init.lua'
+package.path = package.path .. ';../../common/hump/?.lua'
 
 -- push is a library that will allow us to draw our game at a virtual
 -- resolution, instead of however large our window is; used to provide
@@ -70,7 +77,7 @@ scrolling = true
 function love.load()
     -- initialize our nearest-neighbor filter
     love.graphics.setDefaultFilter('nearest', 'nearest')
-    
+
     -- seed the RNG
     math.randomseed(os.time())
 
@@ -153,10 +160,10 @@ end
 
 function love.draw()
     push:start()
-    
+
     love.graphics.draw(background, -backgroundScroll, 0)
     gStateMachine:render()
     love.graphics.draw(ground, -groundScroll, VIRTUAL_HEIGHT - 16)
-    
+
     push:finish()
 end
