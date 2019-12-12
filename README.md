@@ -10,8 +10,6 @@ course, _CS50's Introduction to Game Development_. Their
 
 The projects are, in order:
 
-    url =
-
 * Lecture 1: [Pong](https://github.com/games50/pong.git)
 * Lecture 2: [Fifty Bird](https://github.com/games50/fifty-bird.git)
 * Lecture 3: [Breakout](https://github.com/games50/breakout.git)
