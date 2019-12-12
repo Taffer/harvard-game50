@@ -1,0 +1,6 @@
+[submodule "common/hump"]
+	path = common/hump
+	url = https://github.com/vrld/hump.git
+[submodule "common/push"]
+	path = common/push
+	url = https://github.com/Ulydev/push.git
