@@ -1,16 +1,23 @@
+-- Don't do this in a "real" project, I've only done this so we don't need
+-- to have copies of the extra libraries in every directory. Best practice is
+-- to set things up so your project works with the default package.path, or
+-- to only add paths that are inside your package directory. - Chris H.
+package.path = package.path .. ';../../common/?/?.lua;../../common/?/init.lua'
+package.path = package.path .. ';../../common/hump/?.lua'
+
 -- push is a library that will allow us to draw our game at a virtual
 -- resolution, instead of however large our window is; used to provide
 -- a more retro aesthetic
 --
 -- https://github.com/Ulydev/push
-push = require 'lib/push'
+push = require 'push'
 
 -- the "Class" library we're using will allow us to represent anything in
 -- our game as code, rather than keeping track of many disparate variables and
 -- methods
 --
 -- https://github.com/vrld/hump/blob/master/class.lua
-Class = require 'lib/class'
+Class = require 'class'
 
 -- a few global constants, centralized
 require 'src/constants'

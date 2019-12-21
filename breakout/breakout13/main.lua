@@ -13,7 +13,7 @@
 
     This version is built to more closely resemble the NES than
     the original Pong machines or the Atari 2600 in terms of
-    resolution, though in widescreen (16:9) so it looks nicer on 
+    resolution, though in widescreen (16:9) so it looks nicer on
     modern systems.
 
     Credit for graphics (amazing work!):
@@ -68,7 +68,7 @@ function love.load()
         ['bricks'] = GenerateQuadsBricks(gTextures['main']),
         ['hearts'] = GenerateQuads(gTextures['hearts'], 10, 9)
     }
-    
+
     -- initialize our virtual resolution, which will be rendered within our
     -- actual window no matter its dimensions
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
@@ -80,21 +80,21 @@ function love.load()
     -- set up our sound effects; later, we can just index this table and
     -- call each entry's `play` method
     gSounds = {
-        ['paddle-hit'] = love.audio.newSource('sounds/paddle_hit.wav'),
-        ['score'] = love.audio.newSource('sounds/score.wav'),
-        ['wall-hit'] = love.audio.newSource('sounds/wall_hit.wav'),
-        ['confirm'] = love.audio.newSource('sounds/confirm.wav'),
-        ['select'] = love.audio.newSource('sounds/select.wav'),
-        ['no-select'] = love.audio.newSource('sounds/no-select.wav'),
-        ['brick-hit-1'] = love.audio.newSource('sounds/brick-hit-1.wav'),
-        ['brick-hit-2'] = love.audio.newSource('sounds/brick-hit-2.wav'),
-        ['hurt'] = love.audio.newSource('sounds/hurt.wav'),
-        ['victory'] = love.audio.newSource('sounds/victory.wav'),
-        ['recover'] = love.audio.newSource('sounds/recover.wav'),
-        ['high-score'] = love.audio.newSource('sounds/high_score.wav'),
-        ['pause'] = love.audio.newSource('sounds/pause.wav'),
+        ['paddle-hit'] = love.audio.newSource('sounds/paddle_hit.wav', 'static'),
+        ['score'] = love.audio.newSource('sounds/score.wav', 'static'),
+        ['wall-hit'] = love.audio.newSource('sounds/wall_hit.wav', 'static'),
+        ['confirm'] = love.audio.newSource('sounds/confirm.wav', 'static'),
+        ['select'] = love.audio.newSource('sounds/select.wav', 'static'),
+        ['no-select'] = love.audio.newSource('sounds/no-select.wav', 'static'),
+        ['brick-hit-1'] = love.audio.newSource('sounds/brick-hit-1.wav', 'static'),
+        ['brick-hit-2'] = love.audio.newSource('sounds/brick-hit-2.wav', 'static'),
+        ['hurt'] = love.audio.newSource('sounds/hurt.wav', 'static'),
+        ['victory'] = love.audio.newSource('sounds/victory.wav', 'static'),
+        ['recover'] = love.audio.newSource('sounds/recover.wav', 'static'),
+        ['high-score'] = love.audio.newSource('sounds/high_score.wav', 'static'),
+        ['pause'] = love.audio.newSource('sounds/pause.wav', 'static'),
 
-        ['music'] = love.audio.newSource('sounds/music.wav')
+        ['music'] = love.audio.newSource('sounds/music.wav', 'static')
     }
 
     -- the state machine we'll be using to transition between various states
@@ -195,20 +195,20 @@ function love.draw()
     local backgroundWidth = gTextures['background']:getWidth()
     local backgroundHeight = gTextures['background']:getHeight()
 
-    love.graphics.draw(gTextures['background'], 
+    love.graphics.draw(gTextures['background'],
         -- draw at coordinates 0, 0
-        0, 0, 
+        0, 0,
         -- no rotation
         0,
         -- scale factors on X and Y axis so it fills the screen
         VIRTUAL_WIDTH / (backgroundWidth - 1), VIRTUAL_HEIGHT / (backgroundHeight - 1))
-    
+
     -- use the state machine to defer rendering to the current state we're in
     gStateMachine:render()
-    
+
     -- display FPS for debugging; simply comment out to remove
     displayFPS()
-    
+
     push:apply('end')
 end
 
@@ -220,7 +220,7 @@ function loadHighScores()
     love.filesystem.setIdentity('breakout')
 
     -- if the file doesn't exist, initialize it with some default scores
-    if not love.filesystem.exists('breakout.lst') then
+    if not love.filesystem.getInfo('breakout.lst') then
         local scores = ''
         for i = 10, 1, -1 do
             scores = scores .. 'CTO\n'
@@ -269,7 +269,7 @@ end
 function renderHealth(health)
     -- start of our health rendering
     local healthX = VIRTUAL_WIDTH - 100
-    
+
     -- render health left
     for i = 1, health do
         love.graphics.draw(gTextures['hearts'], gFrames['hearts'][1], healthX, 4)
@@ -289,7 +289,7 @@ end
 function displayFPS()
     -- simple FPS display across all states
     love.graphics.setFont(gFonts['small'])
-    love.graphics.setColor(0, 255, 0, 255)
+    love.graphics.setColor(0, 255/255, 0, 255/255)
     love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 5, 5)
 end
 
