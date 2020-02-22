@@ -11,15 +11,23 @@
     well as the assets for our game, rather than pollute our main.lua file.
 ]]
 
+-- Don't do this in a "real" project, I've only done this so we don't need
+-- to have copies of the extra libraries in every directory. Best practice is
+-- to set things up so your project works with the default package.path, or
+-- to only add paths that are inside your package directory. - Chris H.
+package.path = package.path .. ';../../common/?/?.lua;../../common/?/init.lua'
+package.path = package.path .. ';../../common/hump/?.lua'
+package.path = package.path .. ';../../common/knife/?.lua'
+
 --
 -- libraries
 --
-Class = require 'lib/class'
+Class = require 'class'
 
-push = require 'lib/push'
+push = require 'push'
 
 -- used for timers and tweening
-Timer = require 'lib/knife.timer'
+Timer = require 'knife.timer'
 
 --
 -- our own code
@@ -41,13 +49,13 @@ require 'src/states/PlayState'
 require 'src/states/StartState'
 
 gSounds = {
-    ['music'] = love.audio.newSource('sounds/music3.mp3'),
-    ['select'] = love.audio.newSource('sounds/select.wav'),
-    ['error'] = love.audio.newSource('sounds/error.wav'),
-    ['match'] = love.audio.newSource('sounds/match.wav'),
-    ['clock'] = love.audio.newSource('sounds/clock.wav'),
-    ['game-over'] = love.audio.newSource('sounds/game-over.wav'),
-    ['next-level'] = love.audio.newSource('sounds/next-level.wav')
+    ['music'] = love.audio.newSource('sounds/music3.mp3', 'stream'),
+    ['select'] = love.audio.newSource('sounds/select.wav', 'static'),
+    ['error'] = love.audio.newSource('sounds/error.wav', 'static'),
+    ['match'] = love.audio.newSource('sounds/match.wav', 'static'),
+    ['clock'] = love.audio.newSource('sounds/clock.wav', 'static'),
+    ['game-over'] = love.audio.newSource('sounds/game-over.wav', 'static'),
+    ['next-level'] = love.audio.newSource('sounds/next-level.wav', 'static')
 }
 
 gTextures = {
@@ -56,7 +64,7 @@ gTextures = {
 }
 
 gFrames = {
-    
+
     -- divided into sets for each tile type in this game, instead of one large
     -- table of Quads
     ['tiles'] = GenerateTileQuads(gTextures['main'])

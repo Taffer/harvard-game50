@@ -5,6 +5,14 @@
     Showcases swapping of tiles on a game board with tweening.
 ]]
 
+-- Don't do this in a "real" project, I've only done this so we don't need
+-- to have copies of the extra libraries in every directory. Best practice is
+-- to set things up so your project works with the default package.path, or
+-- to only add paths that are inside your package directory. - Chris H.
+package.path = package.path .. ';../../common/?/?.lua;../../common/?/init.lua'
+package.path = package.path .. ';../../common/hump/?.lua'
+package.path = package.path .. ';../../common/knife/?.lua'
+
 push = require 'push'
 Timer = require 'knife.timer'
 
@@ -120,10 +128,10 @@ end
 
 function love.draw()
     push:start()
-    
+
     -- draw the board with an offset so it's centered on the screen
     drawBoard(128, 16)
-    
+
     push:finish()
 end
 
@@ -136,15 +144,15 @@ function generateBoard()
 
     -- each column of tiles
     for y = 1, 8 do
-        
+
         -- row of tiles
         table.insert(tiles, {})
 
         for x = 1, 8 do
-            
+
             -- tiles[y] will be the blank table we just inserted
             table.insert(tiles[y], {
-                
+
                 --coordinates are 0-based, so subtract one before multiplying by 32
                 x = (x - 1) * 32,
                 y = (y - 1) * 32,
@@ -152,7 +160,7 @@ function generateBoard()
                 -- now we need to know what tile X and Y this tile is
                 gridX = x,
                 gridY = y,
-                
+
                 -- assign a random ID to tile to make it a random tile
                 tile = math.random(#tileQuads)
             })
@@ -177,15 +185,15 @@ function drawBoard(offsetX, offsetY)
             -- draw highlight on tile if selected
             if highlightedTile then
                 if tile.gridX == highlightedX and tile.gridY == highlightedY then
-                    
+
                     -- half opacity so we can still see tile underneath
-                    love.graphics.setColor(255, 255, 255, 128)
+                    love.graphics.setColor(255/255, 255/255, 255/255, 128/255)
 
                     -- rounded rectangle with the 4 at the end (corner segments)
                     love.graphics.rectangle('fill', tile.x + offsetX, tile.y + offsetY, 32, 32, 4)
 
                     -- reset color back to default
-                    love.graphics.setColor(255, 255, 255, 255)
+                    love.graphics.setColor(255/255, 255/255, 255/255, 255/255)
                 end
             end
         end
@@ -193,7 +201,7 @@ function drawBoard(offsetX, offsetY)
 
     -- drawing currently selected tile:
     -- almost opaque red color
-    love.graphics.setColor(255, 0, 0, 234)
+    love.graphics.setColor(255/255, 0, 0, 234/255)
 
     -- thicker line width than normal
     love.graphics.setLineWidth(4)
@@ -202,5 +210,5 @@ function drawBoard(offsetX, offsetY)
     love.graphics.rectangle('line', selectedTile.x + offsetX, selectedTile.y + offsetY, 32, 32, 4)
 
     -- reset default color
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(255/255, 255/255, 255/255, 255/255)
 end

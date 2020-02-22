@@ -7,6 +7,14 @@
     library to make our lives a whole lot easier.
 ]]
 
+-- Don't do this in a "real" project, I've only done this so we don't need
+-- to have copies of the extra libraries in every directory. Best practice is
+-- to set things up so your project works with the default package.path, or
+-- to only add paths that are inside your package directory. - Chris H.
+package.path = package.path .. ';../../common/?/?.lua;../../common/?/init.lua'
+package.path = package.path .. ';../../common/hump/?.lua'
+package.path = package.path .. ';../../common/knife/?.lua'
+
 push = require 'push'
 Timer = require 'knife.timer'
 
@@ -57,7 +65,7 @@ end
 
 function love.draw()
     push:start()
-    
+
     -- "5" could be # of some table here for a real-world use case
     for i = 1, 6 do
         -- reference the counters and intervals table via i here, which is being
@@ -65,6 +73,6 @@ function love.draw()
         love.graphics.printf('Timer: ' .. tostring(counters[i]) .. ' seconds (every ' ..
             tostring(intervals[i]) .. ')', 0, 54 + i * 16, VIRTUAL_WIDTH, 'center')
     end
-    
+
     push:finish()
 end

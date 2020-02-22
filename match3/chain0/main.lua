@@ -6,6 +6,14 @@
     over time in some order, effectively "chaining" the steps.
 ]]
 
+-- Don't do this in a "real" project, I've only done this so we don't need
+-- to have copies of the extra libraries in every directory. Best practice is
+-- to set things up so your project works with the default package.path, or
+-- to only add paths that are inside your package directory. - Chris H.
+package.path = package.path .. ';../../common/?/?.lua;../../common/?/init.lua'
+package.path = package.path .. ';../../common/hump/?.lua'
+package.path = package.path .. ';../../common/knife/?.lua'
+
 push = require 'push'
 
 VIRTUAL_WIDTH = 384
@@ -74,7 +82,7 @@ function love.update(dt)
                 -- or positive
                 baseX + (destination.x - baseX) * timer / MOVEMENT_TIME,
                 baseY + (destination.y - baseY) * timer / MOVEMENT_TIME
-            
+
             -- flag destination as reached if we've reached the movement time and set the
             -- base point as the new current point
             if timer == MOVEMENT_TIME then

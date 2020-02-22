@@ -17,18 +17,18 @@ local positions = {}
 StartState = Class{__includes = BaseState}
 
 function StartState:init()
-    
+
     -- currently selected menu item
     self.currentMenuItem = 1
 
     -- colors we'll use to change the title text
     self.colors = {
-        [1] = {217, 87, 99, 255},
-        [2] = {95, 205, 228, 255},
-        [3] = {251, 242, 54, 255},
-        [4] = {118, 66, 138, 255},
-        [5] = {153, 229, 80, 255},
-        [6] = {223, 113, 38, 255}
+        [1] = {217/255, 87/255, 99/255, 255/255},
+        [2] = {95/255, 205/255, 228/255, 255/255},
+        [3] = {251/255, 242/255, 54/255, 255/255},
+        [4] = {118/255, 66/255, 138/255, 255/255},
+        [5] = {153/255, 229/255, 80/255, 255/255},
+        [6] = {223/255, 113/255, 38/255, 255/255}
     }
 
     -- letters of MATCH 3 and their spacing relative to the center
@@ -43,7 +43,7 @@ function StartState:init()
 
     -- time for a color change if it's been half a second
     self.colorTimer = Timer.every(0.075, function()
-        
+
         -- shift every color to the next, looping the last to front
         -- assign it to 0 so the loop below moves it to 1, default start
         self.colors[0] = self.colors[6]
@@ -72,7 +72,7 @@ function StartState:update(dt)
 
     -- as long as can still input, i.e., we're not in a transition...
     if not self.pauseInput then
-        
+
         -- change menu selection
         if love.keyboard.wasPressed('up') or love.keyboard.wasPressed('down') then
             self.currentMenuItem = self.currentMenuItem == 1 and 2 or 1
@@ -82,7 +82,7 @@ function StartState:update(dt)
         -- switch to another state via one of the menu options
         if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
             if self.currentMenuItem == 1 then
-                
+
                 -- tween, using Timer, the transition rect's alpha to 255, then
                 -- transition to the BeginGame state after the animation is over
                 Timer.tween(1, {
@@ -109,32 +109,32 @@ function StartState:update(dt)
 end
 
 function StartState:render()
-    
+
     -- render all tiles and their drop shadows
     for y = 1, 8 do
         for x = 1, 8 do
-            
+
             -- render shadow first
-            love.graphics.setColor(0, 0, 0, 255)
-            love.graphics.draw(gTextures['main'], positions[(y - 1) * x + x], 
+            love.graphics.setColor(0, 0, 0, 255/255)
+            love.graphics.draw(gTextures['main'], positions[(y - 1) * x + x],
                 (x - 1) * 32 + 128 + 3, (y - 1) * 32 + 16 + 3)
 
             -- render tile
-            love.graphics.setColor(255, 255, 255, 255)
-            love.graphics.draw(gTextures['main'], positions[(y - 1) * x + x], 
+            love.graphics.setColor(255/255, 255/255, 255/255, 255/255)
+            love.graphics.draw(gTextures['main'], positions[(y - 1) * x + x],
                 (x - 1) * 32 + 128, (y - 1) * 32 + 16)
         end
     end
 
     -- keep the background and tiles a little darker than normal
-    love.graphics.setColor(0, 0, 0, 128)
+    love.graphics.setColor(0, 0, 0, 128/255)
     love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
 
     self:drawMatch3Text(-60)
     self:drawOptions(12)
 
     -- draw our transition rect; is normally fully transparent, unless we're moving to a new state
-    love.graphics.setColor(255, 255, 255, self.transitionAlpha)
+    love.graphics.setColor(255/255, 255/255, 255/255, self.transitionAlpha/255)
     love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
 end
 
@@ -143,9 +143,9 @@ end
     axis as needed, relative to the center.
 ]]
 function StartState:drawMatch3Text(y)
-    
+
     -- draw semi-transparent rect behind MATCH 3
-    love.graphics.setColor(255, 255, 255, 128)
+    love.graphics.setColor(255/255, 255/255, 255/255, 128/255)
     love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 - 76, VIRTUAL_HEIGHT / 2 + y - 11, 150, 58, 6)
 
     -- draw MATCH 3 text shadows
@@ -164,33 +164,33 @@ end
     Draws "Start" and "Quit Game" text over semi-transparent rectangles.
 ]]
 function StartState:drawOptions(y)
-    
+
     -- draw rect behind start and quit game text
-    love.graphics.setColor(255, 255, 255, 128)
+    love.graphics.setColor(255/255, 255/255, 255/255, 128/255)
     love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 - 76, VIRTUAL_HEIGHT / 2 + y, 150, 58, 6)
 
     -- draw Start text
     love.graphics.setFont(gFonts['medium'])
     self:drawTextShadow('Start', VIRTUAL_HEIGHT / 2 + y + 8)
-    
+
     if self.currentMenuItem == 1 then
-        love.graphics.setColor(99, 155, 255, 255)
+        love.graphics.setColor(99/255, 155/255, 255/255, 255/255)
     else
-        love.graphics.setColor(48, 96, 130, 255)
+        love.graphics.setColor(48/255, 96/255, 130/255, 255/255)
     end
-    
+
     love.graphics.printf('Start', 0, VIRTUAL_HEIGHT / 2 + y + 8, VIRTUAL_WIDTH, 'center')
 
     -- draw Quit Game text
     love.graphics.setFont(gFonts['medium'])
     self:drawTextShadow('Quit Game', VIRTUAL_HEIGHT / 2 + y + 33)
-    
+
     if self.currentMenuItem == 2 then
-        love.graphics.setColor(99, 155, 255, 255)
+        love.graphics.setColor(99/255, 155/255, 255/255, 255/255)
     else
-        love.graphics.setColor(48, 96, 130, 255)
+        love.graphics.setColor(48/255, 96/255, 130/255, 255/255)
     end
-    
+
     love.graphics.printf('Quit Game', 0, VIRTUAL_HEIGHT / 2 + y + 33, VIRTUAL_WIDTH, 'center')
 end
 
@@ -199,7 +199,7 @@ end
     black, over top of one another for a thicker shadow.
 ]]
 function StartState:drawTextShadow(text, y)
-    love.graphics.setColor(34, 32, 52, 255)
+    love.graphics.setColor(34/255, 32/255, 52/255, 255/255)
     love.graphics.printf(text, 2, y + 1, VIRTUAL_WIDTH, 'center')
     love.graphics.printf(text, 1, y + 1, VIRTUAL_WIDTH, 'center')
     love.graphics.printf(text, 0, y + 1, VIRTUAL_WIDTH, 'center')

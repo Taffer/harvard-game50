@@ -8,6 +8,13 @@
     different rates to show a slightly better example than before.
 ]]
 
+-- Don't do this in a "real" project, I've only done this so we don't need
+-- to have copies of the extra libraries in every directory. Best practice is
+-- to set things up so your project works with the default package.path, or
+-- to only add paths that are inside your package directory. - Chris H.
+package.path = package.path .. ';../../common/?/?.lua;../../common/?/init.lua'
+package.path = package.path .. ';../../common/hump/?.lua'
+
 push = require 'push'
 
 VIRTUAL_WIDTH = 384
@@ -68,14 +75,14 @@ function love.keypressed(key)
 end
 
 function love.update(dt)
-    -- only need to run this for max of 
+    -- only need to run this for max of
     if timer < TIMER_MAX then
 
         timer = timer + dt
 
         -- iterating over all birds this time, calculating based on their own rate
         for k, bird in pairs(birds) do
-            
+
             -- math.min ensures we don't go past the end
             -- timer / MOVE_DURATION is a ratio that we effectively just multiply our
             -- X by each turn to make it seem as if we're moving right

@@ -4,3 +4,6 @@
 [submodule "common/push"]
 	path = common/push
 	url = https://github.com/Ulydev/push.git
+[submodule "common/knife"]
+	path = common/knife
+	url = https://github.com/airstruck/knife.git

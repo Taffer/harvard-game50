@@ -8,6 +8,16 @@
     all over the screen.
 ]]
 
+-- Don't do this in a "real" project, I've only done this so we don't need
+-- to have copies of the extra libraries in every directory. Best practice is
+-- to set things up so your project works with the default package.path, or
+-- to only add paths that are inside your package directory. - Chris H.
+package.path = package.path .. ';../../common/?/?.lua;../../common/?/init.lua'
+package.path = package.path .. ';../../common/hump/?.lua'
+package.path = package.path .. ';../../common/knife/?.lua'
+
+push = require 'push'
+
 function GenerateQuads(texture, width, height)
     local sheetWidth = texture:getWidth() / width
     local sheetHeight = texture:getHeight() / height
@@ -28,8 +38,6 @@ function GenerateQuads(texture, width, height)
 end
 
 function love.load()
-    push = require 'push'
-
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
     texture = love.graphics.newImage('match3.png')
@@ -48,12 +56,12 @@ end
 
 function love.draw()
     push:start()
-    
+
     for y = 0, 288, 32 do
         for x = 0, 512, 32 do
-            love.graphics.draw(texture, quads[math.random(#quads)], x, y)        
+            love.graphics.draw(texture, quads[math.random(#quads)], x, y)
         end
     end
-    
+
     push:finish()
 end

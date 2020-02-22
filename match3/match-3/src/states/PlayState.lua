@@ -19,7 +19,7 @@
 PlayState = Class{__includes = BaseState}
 
 function PlayState:init()
-    
+
     -- start our transition alpha at full, so we fade in
     self.transitionAlpha = 255
 
@@ -56,7 +56,7 @@ function PlayState:init()
 end
 
 function PlayState:enter(params)
-    
+
     -- grab level # from the params we're passed
     self.level = params.level
 
@@ -77,10 +77,10 @@ function PlayState:update(dt)
 
     -- go back to start if time runs out
     if self.timer <= 0 then
-        
+
         -- clear timers from prior PlayStates
         Timer.clear()
-        
+
         gSounds['game-over']:play()
 
         gStateMachine:change('game-over', {
@@ -90,7 +90,7 @@ function PlayState:update(dt)
 
     -- go to next level if we surpass score goal
     if self.score >= self.scoreGoal then
-        
+
         -- clear timers from prior PlayStates
         -- always clear before you change state, else next state's timers
         -- will also clear!
@@ -123,11 +123,11 @@ function PlayState:update(dt)
 
         -- if we've pressed enter, to select or deselect a tile...
         if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-            
+
             -- if same tile as currently highlighted, deselect
             local x = self.boardHighlightX + 1
             local y = self.boardHighlightY + 1
-            
+
             -- if nothing is highlighted, highlight current tile
             if not self.highlightedTile then
                 self.highlightedTile = self.board.tiles[y][x]
@@ -142,7 +142,7 @@ function PlayState:update(dt)
                 gSounds['error']:play()
                 self.highlightedTile = nil
             else
-                
+
                 -- swap grid positions of tiles
                 local tempX = self.highlightedTile.gridX
                 local tempY = self.highlightedTile.gridY
@@ -165,7 +165,7 @@ function PlayState:update(dt)
                     [self.highlightedTile] = {x = newTile.x, y = newTile.y},
                     [newTile] = {x = self.highlightedTile.x, y = self.highlightedTile.y}
                 })
-                
+
                 -- once the swap is finished, we can tween falling blocks as needed
                 :finish(function()
                     self:calculateMatches()
@@ -188,7 +188,7 @@ function PlayState:calculateMatches()
 
     -- if we have any matches, remove them and tween the falling blocks that result
     local matches = self.board:calculateMatches()
-    
+
     if matches then
         gSounds['match']:stop()
         gSounds['match']:play()
@@ -207,12 +207,12 @@ function PlayState:calculateMatches()
         -- tween new tiles that spawn from the ceiling over 0.25s to fill in
         -- the new upper gaps that exist
         Timer.tween(0.25, tilesToFall):finish(function()
-            
+
             -- recursively call function in case new matches have been created
             -- as a result of falling blocks once new blocks have finished falling
             self:calculateMatches()
         end)
-    
+
     -- if no matches, we can continue playing
     else
         self.canInput = true
@@ -225,11 +225,11 @@ function PlayState:render()
 
     -- render highlighted tile if it exists
     if self.highlightedTile then
-        
+
         -- multiply so drawing white rect makes it brighter
         love.graphics.setBlendMode('add')
 
-        love.graphics.setColor(255, 255, 255, 96)
+        love.graphics.setColor(255/255, 255/255, 255/255, 96/255)
         love.graphics.rectangle('fill', (self.highlightedTile.gridX - 1) * 32 + (VIRTUAL_WIDTH - 272),
             (self.highlightedTile.gridY - 1) * 32 + 16, 32, 32, 4)
 
@@ -239,9 +239,9 @@ function PlayState:render()
 
     -- render highlight rect color based on timer
     if self.rectHighlighted then
-        love.graphics.setColor(217, 87, 99, 255)
+        love.graphics.setColor(217/255, 87/255, 99/255, 255/255)
     else
-        love.graphics.setColor(172, 50, 50, 255)
+        love.graphics.setColor(172/255, 50/255, 50/255, 255/255)
     end
 
     -- draw actual cursor rect
@@ -250,10 +250,10 @@ function PlayState:render()
         self.boardHighlightY * 32 + 16, 32, 32, 4)
 
     -- GUI text
-    love.graphics.setColor(56, 56, 56, 234)
+    love.graphics.setColor(56/255, 56/255, 56/255, 234/255)
     love.graphics.rectangle('fill', 16, 16, 186, 116, 4)
 
-    love.graphics.setColor(99, 155, 255, 255)
+    love.graphics.setColor(99/255, 155/255, 255/255, 255/255)
     love.graphics.setFont(gFonts['medium'])
     love.graphics.printf('Level: ' .. tostring(self.level), 20, 24, 182, 'center')
     love.graphics.printf('Score: ' .. tostring(self.score), 20, 52, 182, 'center')

@@ -15,7 +15,7 @@
 BeginGameState = Class{__includes = BaseState}
 
 function BeginGameState:init()
-    
+
     -- start our transition alpha at full, so we fade in
     self.transitionAlpha = 255
 
@@ -27,7 +27,7 @@ function BeginGameState:init()
 end
 
 function BeginGameState:enter(def)
-    
+
     -- grab level # from the def we're passed
     self.level = def.level
 
@@ -40,23 +40,23 @@ function BeginGameState:enter(def)
     Timer.tween(1, {
         [self] = {transitionAlpha = 0}
     })
-    
+
     -- once that's finished, start a transition of our text label to
     -- the center of the screen over 0.25 seconds
     :finish(function()
         Timer.tween(0.25, {
             [self] = {levelLabelY = VIRTUAL_HEIGHT / 2 - 8}
         })
-        
+
         -- after that, pause for one second with Timer.after
         :finish(function()
             Timer.after(1, function()
-                
+
                 -- then, animate the label going down past the bottom edge
                 Timer.tween(0.25, {
                     [self] = {levelLabelY = VIRTUAL_HEIGHT + 30}
                 })
-                
+
                 -- once that's complete, we're ready to play!
                 :finish(function()
                     gStateMachine:change('play', {
@@ -74,19 +74,19 @@ function BeginGameState:update(dt)
 end
 
 function BeginGameState:render()
-    
+
     -- render board of tiles
     self.board:render()
 
     -- render Level # label and background rect
-    love.graphics.setColor(95, 205, 228, 200)
+    love.graphics.setColor(95/255, 205/255, 228/255, 200/255)
     love.graphics.rectangle('fill', 0, self.levelLabelY - 8, VIRTUAL_WIDTH, 48)
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(255/255, 255/255, 255/255, 255/255)
     love.graphics.setFont(gFonts['large'])
     love.graphics.printf('Level ' .. tostring(self.level),
         0, self.levelLabelY, VIRTUAL_WIDTH, 'center')
 
     -- our transition foreground rectangle
-    love.graphics.setColor(255, 255, 255, self.transitionAlpha)
+    love.graphics.setColor(255/255, 255/255, 255/255, self.transitionAlpha/255)
     love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
 end

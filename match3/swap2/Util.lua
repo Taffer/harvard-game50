@@ -52,7 +52,7 @@ function GenerateTileQuads(atlas)
         -- two sets of 6 cols, different tile varietes
         for i = 1, 2 do
             tiles[counter] = {}
-            
+
             for col = 1, 6 do
                 table.insert(tiles[counter], love.graphics.newQuad(
                     x, y, 32, 32, atlas:getDimensions()
