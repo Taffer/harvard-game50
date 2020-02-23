@@ -52,5 +52,7 @@ My changes:
 
 * Use current versions of the dependencies:
   * `class` from the [`hump`](https://github.com/vrld/hump) library
+  * the [`knife`](https://github.com/airstruck/knife) library
   * [`push`](https://github.com/Ulydev/push)
 * Adjust colour ranges from 0 - 255 to 0.0 - 1.0.
+* Update `love.audio.newSource()` calls.
