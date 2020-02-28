@@ -6,6 +6,14 @@
     cogden@cs50.harvard.edu
 ]]
 
+-- Don't do this in a "real" project, I've only done this so we don't need
+-- to have copies of the extra libraries in every directory. Best practice is
+-- to set things up so your project works with the default package.path, or
+-- to only add paths that are inside your package directory. - Chris H.
+package.path = package.path .. ';../../common/?/?.lua;../../common/?/init.lua'
+package.path = package.path .. ';../../common/hump/?.lua'
+package.path = package.path .. ';../../common/knife/?.lua'
+
 push = require 'push'
 
 require 'Util'
@@ -31,24 +39,24 @@ function love.load()
     math.randomseed(os.time())
 
     tiles = {}
-    
+
     -- tilesheet image and quads for it, which will map to our IDs
     tilesheet = love.graphics.newImage('tiles.png')
     quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
-    
+
     mapWidth = 20
     mapHeight = 20
 
     -- amount by which we'll translate the scene to emulate a camera
     cameraScroll = 0
 
-    backgroundR = math.random(255)
-    backgroundG = math.random(255)
-    backgroundB = math.random(255)
+    backgroundR = math.random(255)/255
+    backgroundG = math.random(255)/255
+    backgroundB = math.random(255)/255
 
     for y = 1, mapHeight do
         table.insert(tiles, {})
-        
+
         for x = 1, mapWidth do
             -- sky and bricks; this ID directly maps to whatever quad we want to render
             table.insert(tiles[y], {
@@ -93,8 +101,8 @@ function love.draw()
         -- fractional camera offsets with a virtual resolution will result in weird pixelation and artifacting
         -- as things are attempted to be drawn fractionally and then forced onto a small virtual canvas
         love.graphics.translate(-math.floor(cameraScroll), 0)
-        love.graphics.clear(backgroundR, backgroundG, backgroundB, 255)
-        
+        love.graphics.clear(backgroundR, backgroundG, backgroundB, 255/255)
+
         for y = 1, mapHeight do
             for x = 1, mapWidth do
                 local tile = tiles[y][x]

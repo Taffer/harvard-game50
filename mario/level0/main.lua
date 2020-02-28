@@ -6,6 +6,14 @@
     cogden@cs50.harvard.edu
 ]]
 
+-- Don't do this in a "real" project, I've only done this so we don't need
+-- to have copies of the extra libraries in every directory. Best practice is
+-- to set things up so your project works with the default package.path, or
+-- to only add paths that are inside your package directory. - Chris H.
+package.path = package.path .. ';../../common/?/?.lua;../../common/?/init.lua'
+package.path = package.path .. ';../../common/hump/?.lua'
+package.path = package.path .. ';../../common/knife/?.lua'
+
 Class = require 'class'
 push = require 'push'
 
@@ -51,7 +59,7 @@ GROUND = 3
 
 function love.load()
     math.randomseed(os.time())
-    
+
     -- tilesheet image and quads for it, which will map to our IDs
     tilesheet = love.graphics.newImage('tiles.png')
     quads = GenerateQuads(tilesheet, TILE_SIZE, TILE_SIZE)
@@ -96,16 +104,16 @@ function love.load()
 
     -- direction the character is facing
     direction = 'right'
-    
+
     mapWidth = 20
     mapHeight = 20
 
     -- amount by which we'll translate the scene to emulate a camera
     cameraScroll = 0
 
-    backgroundR = math.random(255)
-    backgroundG = math.random(255)
-    backgroundB = math.random(255)
+    backgroundR = math.random(255)/255
+    backgroundG = math.random(255)/255
+    backgroundB = math.random(255)/255
 
     tiles = generateLevel()
 
@@ -166,7 +174,7 @@ function love.update(dt)
         direction = 'left'
     elseif love.keyboard.isDown('right') then
         characterX = characterX + CHARACTER_MOVE_SPEED * dt
-        
+
         if characterDY == 0 then
             currentAnimation = movingAnimation
         end
@@ -187,17 +195,17 @@ function love.draw()
         -- fractional camera offsets with a virtual resolution will result in weird pixelation and artifacting
         -- as things are attempted to be drawn fractionally and then forced onto a small virtual canvas
         love.graphics.translate(-math.floor(cameraScroll), 0)
-        love.graphics.clear(backgroundR, backgroundG, backgroundB, 255)
-        
+        love.graphics.clear(backgroundR, backgroundG, backgroundB, 255/255)
+
         for y = 1, mapHeight do
             for x = 1, mapWidth do
                 local tile = tiles[y][x]
-                love.graphics.draw(tilesheet, tilesets[tileset][tile.id], 
+                love.graphics.draw(tilesheet, tilesets[tileset][tile.id],
                     (x - 1) * TILE_SIZE, (y - 1) * TILE_SIZE)
 
                 -- draw a topper on top of the tile if it contains the flag for it
                 if tile.topper then
-                    love.graphics.draw(topperSheet, toppersets[topperset][tile.id], 
+                    love.graphics.draw(topperSheet, toppersets[topperset][tile.id],
                         (x - 1) * TILE_SIZE, (y - 1) * TILE_SIZE)
                 end
             end
@@ -206,11 +214,11 @@ function love.draw()
         -- draw character, this time getting the current frame from the animation
         -- we also check for our direction and scale by -1 on the X axis if we're facing left
         -- when we scale by -1, we have to set the origin to the center of the sprite as well for proper flipping
-        love.graphics.draw(characterSheet, characterQuads[currentAnimation:getCurrentFrame()], 
+        love.graphics.draw(characterSheet, characterQuads[currentAnimation:getCurrentFrame()],
 
             -- X and Y we draw at need to be shifted by half our width and height because we're setting the origin
             -- to that amount for proper scaling, which reverse-shifts rendering
-            math.floor(characterX) + CHARACTER_WIDTH / 2, math.floor(characterY) + CHARACTER_HEIGHT / 2, 
+            math.floor(characterX) + CHARACTER_WIDTH / 2, math.floor(characterY) + CHARACTER_HEIGHT / 2,
 
             -- 0 rotation, then the X and Y scales
             0, direction == 'left' and -1 or 1, 1,
@@ -225,9 +233,9 @@ function generateLevel()
 
     for y = 1, mapHeight do
         table.insert(tiles, {})
-        
+
         for x = 1, mapWidth do
-            
+
             -- sky and bricks; this ID directly maps to whatever quad we want to render
             table.insert(tiles[y], {
                 id = y < 7 and SKY or GROUND,

@@ -11,12 +11,20 @@
     well as the assets for our game, rather than pollute our main.lua file.
 ]]
 
+-- Don't do this in a "real" project, I've only done this so we don't need
+-- to have copies of the extra libraries in every directory. Best practice is
+-- to set things up so your project works with the default package.path, or
+-- to only add paths that are inside your package directory. - Chris H.
+package.path = package.path .. ';../../common/?/?.lua;../../common/?/init.lua'
+package.path = package.path .. ';../../common/hump/?.lua'
+package.path = package.path .. ';../../common/knife/?.lua'
+
 --
 -- libraries
 --
-Class = require 'lib/class'
-push = require 'lib/push'
-Timer = require 'lib/knife.timer'
+Class = require 'class'
+push = require 'push'
+Timer = require 'knife.timer'
 
 --
 -- our own code
@@ -55,14 +63,14 @@ require 'src/TileMap'
 
 
 gSounds = {
-    ['jump'] = love.audio.newSource('sounds/jump.wav'),
-    ['death'] = love.audio.newSource('sounds/death.wav'),
-    ['music'] = love.audio.newSource('sounds/music.wav'),
-    ['powerup-reveal'] = love.audio.newSource('sounds/powerup-reveal.wav'),
-    ['pickup'] = love.audio.newSource('sounds/pickup.wav'),
-    ['empty-block'] = love.audio.newSource('sounds/empty-block.wav'),
-    ['kill'] = love.audio.newSource('sounds/kill.wav'),
-    ['kill2'] = love.audio.newSource('sounds/kill2.wav')
+    ['jump'] = love.audio.newSource('sounds/jump.wav', 'static'),
+    ['death'] = love.audio.newSource('sounds/death.wav', 'static'),
+    ['music'] = love.audio.newSource('sounds/music.wav', 'static'),
+    ['powerup-reveal'] = love.audio.newSource('sounds/powerup-reveal.wav', 'static'),
+    ['pickup'] = love.audio.newSource('sounds/pickup.wav', 'static'),
+    ['empty-block'] = love.audio.newSource('sounds/empty-block.wav', 'static'),
+    ['kill'] = love.audio.newSource('sounds/kill.wav', 'static'),
+    ['kill2'] = love.audio.newSource('sounds/kill2.wav', 'static')
 }
 
 gTextures = {
@@ -78,9 +86,9 @@ gTextures = {
 
 gFrames = {
     ['tiles'] = GenerateQuads(gTextures['tiles'], TILE_SIZE, TILE_SIZE),
-    
+
     ['toppers'] = GenerateQuads(gTextures['toppers'], TILE_SIZE, TILE_SIZE),
-    
+
     ['bushes'] = GenerateQuads(gTextures['bushes'], 16, 16),
     ['jump-blocks'] = GenerateQuads(gTextures['jump-blocks'], 16, 16),
     ['gems'] = GenerateQuads(gTextures['gems'], 16, 16),
@@ -90,10 +98,10 @@ gFrames = {
 }
 
 -- these need to be added after gFrames is initialized because they refer to gFrames from within
-gFrames['tilesets'] = GenerateTileSets(gFrames['tiles'], 
+gFrames['tilesets'] = GenerateTileSets(gFrames['tiles'],
     TILE_SETS_WIDE, TILE_SETS_TALL, TILE_SET_WIDTH, TILE_SET_HEIGHT)
 
-gFrames['toppersets'] = GenerateTileSets(gFrames['toppers'], 
+gFrames['toppersets'] = GenerateTileSets(gFrames['toppers'],
     TOPPER_SETS_WIDE, TOPPER_SETS_TALL, TILE_SET_WIDTH, TILE_SET_HEIGHT)
 
 gFonts = {
