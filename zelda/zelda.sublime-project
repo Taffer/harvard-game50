@@ -1,0 +1,17 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+            		"name": "Zelda - game50"
+		}
+	],
+    "build_systems":
+    [
+        {
+            "name": "Launch Love2d",
+            "shell_cmd": "love .",
+            "file_regex": "^Error: (?:[^:]+: )?([^: ]+?):(\\d+):() ([^:]*)$",
+        },
+    ],
+}

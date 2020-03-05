@@ -2,10 +2,18 @@
 -- libraries
 --
 
-Class = require 'lib/class'
-Event = require 'lib/knife.event'
-push = require 'lib/push'
-Timer = require 'lib/knife.timer'
+-- Don't do this in a "real" project, I've only done this so we don't need
+-- to have copies of the extra libraries in every directory. Best practice is
+-- to set things up so your project works with the default package.path, or
+-- to only add paths that are inside your package directory. - Chris H.
+package.path = package.path .. ';../common/?/?.lua;../common/?/init.lua'
+package.path = package.path .. ';../common/hump/?.lua'
+package.path = package.path .. ';../common/knife/?.lua'
+
+Class = require 'class'
+Event = require 'knife.event'
+push = require 'push'
+Timer = require 'knife.timer'
 
 require 'src/Animation'
 require 'src/constants'
@@ -65,9 +73,9 @@ gFonts = {
 }
 
 gSounds = {
-    ['music'] = love.audio.newSource('sounds/music.mp3'),
-    ['sword'] = love.audio.newSource('sounds/sword.wav'),
-    ['hit-enemy'] = love.audio.newSource('sounds/hit_enemy.wav'),
-    ['hit-player'] = love.audio.newSource('sounds/hit_player.wav'),
-    ['door'] = love.audio.newSource('sounds/door.wav')
+    ['music'] = love.audio.newSource('sounds/music.mp3', 'stream'),
+    ['sword'] = love.audio.newSource('sounds/sword.wav', 'static'),
+    ['hit-enemy'] = love.audio.newSource('sounds/hit_enemy.wav', 'static'),
+    ['hit-player'] = love.audio.newSource('sounds/hit_player.wav', 'static'),
+    ['door'] = love.audio.newSource('sounds/door.wav', 'static')
 }
