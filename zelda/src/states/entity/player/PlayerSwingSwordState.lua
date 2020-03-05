@@ -60,7 +60,7 @@ function PlayerSwingSwordState:enter(params)
 end
 
 function PlayerSwingSwordState:update(dt)
-    
+
     -- check if hitbox collides with any entities in the scene
     for k, entity in pairs(self.dungeon.currentRoom.entities) do
         if entity:collides(self.swordHitbox) then
@@ -90,9 +90,9 @@ function PlayerSwingSwordState:render()
     -- debug for player and hurtbox collision rects VV
     --
 
-    -- love.graphics.setColor(255, 0, 255, 255)
+    -- love.graphics.setColor(255/255, 0, 255/255, 255/255)
     -- love.graphics.rectangle('line', self.player.x, self.player.y, self.player.width, self.player.height)
     -- love.graphics.rectangle('line', self.swordHurtbox.x, self.swordHurtbox.y,
     --     self.swordHurtbox.width, self.swordHurtbox.height)
-    -- love.graphics.setColor(255, 255, 255, 255)
+    -- love.graphics.setColor(255/255, 255/255, 255/255, 255/255)
 end

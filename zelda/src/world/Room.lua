@@ -60,7 +60,7 @@ function Room:generateEntities()
                 VIRTUAL_WIDTH - TILE_SIZE * 2 - 16),
             y = math.random(MAP_RENDER_OFFSET_Y + TILE_SIZE,
                 VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE - 16),
-            
+
             width = 16,
             height = 16,
 
@@ -92,7 +92,7 @@ function Room:generateObjects()
     switch.onCollide = function()
         if switch.state == 'unpressed' then
             switch.state = 'pressed'
-            
+
             -- open every door in the room if we press the switch
             for k, doorway in pairs(self.doorways) do
                 doorway.open = true
@@ -125,7 +125,7 @@ function Room:generateWallsAndFloors()
                 id = TILE_TOP_RIGHT_CORNER
             elseif x == self.width and y == self.height then
                 id = TILE_BOTTOM_RIGHT_CORNER
-            
+
             -- random left-hand walls, right walls, top, bottom, and floors
             elseif x == 1 then
                 id = TILE_LEFT_WALLS[math.random(#TILE_LEFT_WALLS)]
@@ -138,7 +138,7 @@ function Room:generateWallsAndFloors()
             else
                 id = TILE_FLOORS[math.random(#TILE_FLOORS)]
             end
-            
+
             table.insert(self.tiles[y], {
                 id = id
             })
@@ -147,7 +147,7 @@ function Room:generateWallsAndFloors()
 end
 
 function Room:update(dt)
-    
+
     -- don't update anything if we are sliding to another room (we have offsets)
     if self.adjacentOffsetX ~= 0 or self.adjacentOffsetY ~= 0 then return end
 
@@ -191,7 +191,7 @@ function Room:render()
         for x = 1, self.width do
             local tile = self.tiles[y][x]
             love.graphics.draw(gTextures['tiles'], gFrames['tiles'][tile.id],
-                (x - 1) * TILE_SIZE + self.renderOffsetX + self.adjacentOffsetX, 
+                (x - 1) * TILE_SIZE + self.renderOffsetX + self.adjacentOffsetX,
                 (y - 1) * TILE_SIZE + self.renderOffsetY + self.adjacentOffsetY)
         end
     end
@@ -212,26 +212,26 @@ function Room:render()
 
     -- stencil out the door arches so it looks like the player is going through
     love.graphics.stencil(function()
-        
+
         -- left
         love.graphics.rectangle('fill', -TILE_SIZE - 6, MAP_RENDER_OFFSET_Y + (MAP_HEIGHT / 2) * TILE_SIZE - TILE_SIZE,
             TILE_SIZE * 2 + 6, TILE_SIZE * 2)
-        
+
         -- right
         love.graphics.rectangle('fill', MAP_RENDER_OFFSET_X + (MAP_WIDTH * TILE_SIZE),
             MAP_RENDER_OFFSET_Y + (MAP_HEIGHT / 2) * TILE_SIZE - TILE_SIZE, TILE_SIZE * 2 + 6, TILE_SIZE * 2)
-        
+
         -- top
         love.graphics.rectangle('fill', MAP_RENDER_OFFSET_X + (MAP_WIDTH / 2) * TILE_SIZE - TILE_SIZE,
             -TILE_SIZE - 6, TILE_SIZE * 2, TILE_SIZE * 2 + 12)
-        
+
         --bottom
         love.graphics.rectangle('fill', MAP_RENDER_OFFSET_X + (MAP_WIDTH / 2) * TILE_SIZE - TILE_SIZE,
             VIRTUAL_HEIGHT - TILE_SIZE - 6, TILE_SIZE * 2, TILE_SIZE * 2 + 12)
     end, 'replace', 1)
 
     love.graphics.setStencilTest('less', 1)
-    
+
     if self.player then
         self.player:render()
     end
@@ -242,8 +242,8 @@ function Room:render()
     -- DEBUG DRAWING OF STENCIL RECTANGLES
     --
 
-    -- love.graphics.setColor(255, 0, 0, 100)
-    
+    -- love.graphics.setColor(255/255, 0, 0, 100/255)
+
     -- -- left
     -- love.graphics.rectangle('fill', -TILE_SIZE - 6, MAP_RENDER_OFFSET_Y + (MAP_HEIGHT / 2) * TILE_SIZE - TILE_SIZE,
     -- TILE_SIZE * 2 + 6, TILE_SIZE * 2)
@@ -259,6 +259,6 @@ function Room:render()
     -- --bottom
     -- love.graphics.rectangle('fill', MAP_RENDER_OFFSET_X + (MAP_WIDTH / 2) * TILE_SIZE - TILE_SIZE,
     --     VIRTUAL_HEIGHT - TILE_SIZE - 6, TILE_SIZE * 2, TILE_SIZE * 2 + 12)
-    
-    -- love.graphics.setColor(255, 255, 255, 255)
+
+    -- love.graphics.setColor(255/255, 255/255, 255/255, 255/255)
 end
