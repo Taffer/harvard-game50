@@ -1,14 +1,22 @@
 --[[
     GD50
     Angry Birds
-    
+
     Author: Colton Ogden
     cogden@cs50.harvard.edu
 ]]
 
-Class = require 'lib/class'
-push = require 'lib/push'
-Timer = require 'lib/knife.timer'
+-- Don't do this in a "real" project, I've only done this so we don't need
+-- to have copies of the extra libraries in every directory. Best practice is
+-- to set things up so your project works with the default package.path, or
+-- to only add paths that are inside your package directory. - Chris H.
+package.path = package.path .. ';../../common/?/?.lua;../.../common/?/init.lua'
+package.path = package.path .. ';../../common/hump/?.lua'
+package.path = package.path .. ';../../common/knife/?.lua'
+
+Class = require 'class'
+push = require 'push'
+Timer = require 'knife.timer'
 
 require 'src/Alien'
 require 'src/AlienLaunchMarker'
@@ -60,15 +68,15 @@ gFrames = {
 }
 
 gSounds = {
-    ['break1'] = love.audio.newSource('sounds/break1.wav'),
-    ['break2'] = love.audio.newSource('sounds/break2.wav'),
-    ['break3'] = love.audio.newSource('sounds/break3.mp3'),
-    ['break4'] = love.audio.newSource('sounds/break4.wav'),
-    ['break5'] = love.audio.newSource('sounds/break5.wav'),
-    ['bounce'] = love.audio.newSource('sounds/bounce.wav'),
-    ['kill'] = love.audio.newSource('sounds/kill.wav'),
+    ['break1'] = love.audio.newSource('sounds/break1.wav', 'static'),
+    ['break2'] = love.audio.newSource('sounds/break2.wav', 'static'),
+    ['break3'] = love.audio.newSource('sounds/break3.mp3', 'static'),
+    ['break4'] = love.audio.newSource('sounds/break4.wav', 'static'),
+    ['break5'] = love.audio.newSource('sounds/break5.wav', 'static'),
+    ['bounce'] = love.audio.newSource('sounds/bounce.wav', 'static'),
+    ['kill'] = love.audio.newSource('sounds/kill.wav', 'static'),
 
-    ['music'] = love.audio.newSource('sounds/music.wav')
+    ['music'] = love.audio.newSource('sounds/music.wav', 'stream')
 }
 
 gFonts = {

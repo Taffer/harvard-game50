@@ -9,7 +9,7 @@
 Level = Class{}
 
 function Level:init()
-    
+
     -- create a new "world" (where physics take place), with no x gravity
     -- and 30 units of Y gravity (for downward force)
     self.world = love.physics.newWorld(0, 300)
@@ -31,7 +31,7 @@ function Level:init()
             -- grab the body that belongs to the player
             local playerFixture = a:getUserData() == 'Player' and a or b
             local obstacleFixture = a:getUserData() == 'Obstacle' and a or b
-            
+
             -- destroy the obstacle if player's combined X/Y velocity is high enough
             local velX, velY = playerFixture:getBody():getLinearVelocity()
             local sumVel = math.abs(velX) + math.abs(velY)
@@ -84,7 +84,7 @@ function Level:init()
     -- implementing any functionality with them in this demo; use-case specific
     -- http://www.iforce2d.net/b2dtut/collision-anatomy
     function endContact(a, b, coll)
-        
+
     end
 
     function preSolve(a, b, coll)
@@ -132,7 +132,7 @@ function Level:init()
 end
 
 function Level:update(dt)
-    
+
     -- update launch marker, which shows trajectory
     self.launchMarker:update(dt)
 
@@ -141,7 +141,7 @@ function Level:update(dt)
 
     -- destroy all bodies we calculated to destroy during the update call
     for k, body in pairs(self.destroyedBodies) do
-        if not body:isDestroyed() then 
+        if not body:isDestroyed() then
             body:destroy()
         end
     end
@@ -174,7 +174,7 @@ function Level:update(dt)
     if self.launchMarker.launched then
         local xPos, yPos = self.launchMarker.alien.body:getPosition()
         local xVel, yVel = self.launchMarker.alien.body:getLinearVelocity()
-        
+
         -- if we fired our alien to the left or it's almost done rolling, respawn
         if xPos < 0 or (math.abs(xVel) + math.abs(yVel) < 1.5) then
             self.launchMarker.alien.body:destroy()
@@ -189,7 +189,7 @@ function Level:update(dt)
 end
 
 function Level:render()
-    
+
     -- render ground tiles across full scrollable width of the screen
     for x = -VIRTUAL_WIDTH, VIRTUAL_WIDTH * 2, 35 do
         love.graphics.draw(gTextures['tiles'], gFrames['tiles'][12], x, VIRTUAL_HEIGHT - 35)
@@ -208,17 +208,17 @@ function Level:render()
     -- render instruction text if we haven't launched bird
     if not self.launchMarker.launched then
         love.graphics.setFont(gFonts['medium'])
-        love.graphics.setColor(0, 0, 0, 255)
+        love.graphics.setColor(0, 0, 0, 255/255)
         love.graphics.printf('Click and drag circular alien to shoot!',
             0, 64, VIRTUAL_WIDTH, 'center')
-        love.graphics.setColor(255, 255, 255, 255)
+        love.graphics.setColor(255/255, 255/255, 255/255, 255/255)
     end
 
     -- render victory text if all aliens are dead
     if #self.aliens == 0 then
         love.graphics.setFont(gFonts['huge'])
-        love.graphics.setColor(0, 0, 0, 255)
+        love.graphics.setColor(0, 0, 0, 255/255)
         love.graphics.printf('VICTORY', 0, VIRTUAL_HEIGHT / 2 - 32, VIRTUAL_WIDTH, 'center')
-        love.graphics.setColor(255, 255, 255, 255)
+        love.graphics.setColor(255/255, 255/255, 255/255, 255/255)
     end
 end

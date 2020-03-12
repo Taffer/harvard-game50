@@ -31,6 +31,14 @@ WINDOW_HEIGHT = 720
 DEGREES_TO_RADIANS = 0.0174532925199432957
 RADIANS_TO_DEGREES = 57.295779513082320876
 
+-- Don't do this in a "real" project, I've only done this so we don't need
+-- to have copies of the extra libraries in every directory. Best practice is
+-- to set things up so your project works with the default package.path, or
+-- to only add paths that are inside your package directory. - Chris H.
+package.path = package.path .. ';../../common/?/?.lua;../../common/?/init.lua'
+package.path = package.path .. ';../../common/hump/?.lua'
+package.path = package.path .. ';../../common/knife/?.lua'
+
 push = require 'push'
 
 function love.load()
@@ -73,11 +81,11 @@ function love.load()
 
     for i = 1, 1000 do
         table.insert(dynamicBodies, {
-            love.physics.newBody(world, 
+            love.physics.newBody(world,
                 math.random(VIRTUAL_WIDTH), math.random(VIRTUAL_HEIGHT - 30), 'dynamic'),
-            r = math.random(255),
-            g = math.random(255),
-            b = math.random(255)
+            r = math.random(255)/255,
+            g = math.random(255)/255,
+            b = math.random(255)/255
         })
         table.insert(dynamicFixtures, love.physics.newFixture(dynamicBodies[i][1], ballShape))
     end
@@ -98,7 +106,7 @@ function love.keypressed(key)
 end
 
 function love.update(dt)
-    
+
     -- update world, calculating collisions
     world:update(dt)
 end
@@ -107,16 +115,16 @@ function love.draw()
     push:start()
 
     -- draw a line that represents our ground, calculated from ground body and edge shape
-    love.graphics.setColor(255, 0, 0, 255)
+    love.graphics.setColor(255/255, 0, 0, 255/255)
     love.graphics.setLineWidth(2)
     love.graphics.line(groundBody:getWorldPoints(edgeShape:getPoints()))
 
     -- render ball pit
     for i = 1, #dynamicBodies do
         love.graphics.setColor(
-            dynamicBodies[i].r, dynamicBodies[i].g, dynamicBodies[i].b, 255
+            dynamicBodies[i].r, dynamicBodies[i].g, dynamicBodies[i].b, 255/255
         )
-        love.graphics.circle('fill', 
+        love.graphics.circle('fill',
             dynamicBodies[i][1]:getX(),
             dynamicBodies[i][1]:getY(),
             ballShape:getRadius()
@@ -124,7 +132,7 @@ function love.draw()
     end
 
     -- render "person" falling in
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(255/255, 255/255, 255/255, 255/255)
     love.graphics.polygon('fill', personBody:getWorldPoints(personShape:getPoints()))
 
     push:finish()

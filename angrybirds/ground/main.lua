@@ -28,6 +28,14 @@ VIRTUAL_HEIGHT = 360
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 
+-- Don't do this in a "real" project, I've only done this so we don't need
+-- to have copies of the extra libraries in every directory. Best practice is
+-- to set things up so your project works with the default package.path, or
+-- to only add paths that are inside your package directory. - Chris H.
+package.path = package.path .. ';../../common/?/?.lua;../../common/?/init.lua'
+package.path = package.path .. ';../../common/hump/?.lua'
+package.path = package.path .. ';../../common/knife/?.lua'
+
 push = require 'push'
 
 function love.load()
@@ -75,21 +83,20 @@ function love.keypressed(key)
 end
 
 function love.update(dt)
-    
     -- update world, calculating collisions
     world:update(dt)
 end
 
 function love.draw()
     push:start()
-    
+
     -- draw a polygon shape by getting the world points for our body, using the box shape's
     -- definition as a reference
-    love.graphics.setColor(0, 255, 0, 255)
+    love.graphics.setColor(0, 255/255, 0, 255/255)
     love.graphics.polygon('fill', boxBody:getWorldPoints(boxShape:getPoints()))
 
     -- draw a line that represents our ground, calculated from ground body and edge shape
-    love.graphics.setColor(255, 0, 0, 255)
+    love.graphics.setColor(255/255, 0, 0, 255/255)
     love.graphics.setLineWidth(2)
     love.graphics.line(groundBody:getWorldPoints(edgeShape:getPoints()))
 

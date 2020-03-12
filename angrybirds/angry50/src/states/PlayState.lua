@@ -21,11 +21,11 @@ function PlayState:update(dt)
     -- update camera
     if love.keyboard.isDown('left') then
         self.levelTranslateX = self.levelTranslateX + MAP_SCROLL_X_SPEED * dt
-        
+
         if self.levelTranslateX > VIRTUAL_WIDTH then
             self.levelTranslateX = VIRTUAL_WIDTH
         else
-            
+
             -- only update background if we were able to scroll the level
             self.level.background:update(dt)
         end
@@ -35,7 +35,7 @@ function PlayState:update(dt)
         if self.levelTranslateX < -VIRTUAL_WIDTH then
             self.levelTranslateX = -VIRTUAL_WIDTH
         else
-            
+
             -- only update background if we were able to scroll the level
             self.level.background:update(dt)
         end
@@ -45,9 +45,9 @@ function PlayState:update(dt)
 end
 
 function PlayState:render()
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(255/255, 255/255, 255/255, 255/255)
     love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()))
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(255/255, 255/255, 255/255, 255/255)
 
     -- render background separate from level rendering
     self.level.background:render()
