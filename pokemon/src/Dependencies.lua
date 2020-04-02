@@ -2,10 +2,18 @@
 -- libraries
 --
 
-Class = require 'lib/class'
-Event = require 'lib/knife.event'
-push = require 'lib/push'
-Timer = require 'lib/knife.timer'
+-- Don't do this in a "real" project, I've only done this so we don't need
+-- to have copies of the extra libraries in every directory. Best practice is
+-- to set things up so your project works with the default package.path, or
+-- to only add paths that are inside your package directory. - Chris H.
+package.path = package.path .. ';../common/?/?.lua;../common/?/init.lua'
+package.path = package.path .. ';../common/hump/?.lua'
+package.path = package.path .. ';../common/knife/?.lua'
+
+Class = require 'class'
+Event = require 'knife.event'
+push = require 'push'
+Timer = require 'knife.timer'
 
 require 'src/Animation'
 require 'src/constants'
@@ -81,15 +89,15 @@ gFonts = {
 }
 
 gSounds = {
-    ['field-music'] = love.audio.newSource('sounds/field_music.wav'),
-    ['battle-music'] = love.audio.newSource('sounds/battle_music.mp3'),
-    ['blip'] = love.audio.newSource('sounds/blip.wav'),
-    ['powerup'] = love.audio.newSource('sounds/powerup.wav'),
-    ['hit'] = love.audio.newSource('sounds/hit.wav'),
-    ['run'] = love.audio.newSource('sounds/run.wav'),
-    ['heal'] = love.audio.newSource('sounds/heal.wav'),
-    ['exp'] = love.audio.newSource('sounds/exp.wav'),
-    ['levelup'] = love.audio.newSource('sounds/levelup.wav'),
-    ['victory-music'] = love.audio.newSource('sounds/victory.wav'),
-    ['intro-music'] = love.audio.newSource('sounds/intro.mp3')
+    ['field-music'] = love.audio.newSource('sounds/field_music.wav', 'stream'),
+    ['battle-music'] = love.audio.newSource('sounds/battle_music.mp3', 'stream'),
+    ['blip'] = love.audio.newSource('sounds/blip.wav', 'static'),
+    ['powerup'] = love.audio.newSource('sounds/powerup.wav', 'static'),
+    ['hit'] = love.audio.newSource('sounds/hit.wav', 'static'),
+    ['run'] = love.audio.newSource('sounds/run.wav', 'static'),
+    ['heal'] = love.audio.newSource('sounds/heal.wav', 'static'),
+    ['exp'] = love.audio.newSource('sounds/exp.wav', 'static'),
+    ['levelup'] = love.audio.newSource('sounds/levelup.wav', 'static'),
+    ['victory-music'] = love.audio.newSource('sounds/victory.wav', 'stream'),
+    ['intro-music'] = love.audio.newSource('sounds/intro.mp3', 'stream')
 }
