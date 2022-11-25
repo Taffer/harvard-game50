@@ -1,3 +1,11 @@
+# Moved
+
+This repo is has been replaced by: https://codeberg.org/Taffer/harvard-game50
+
+![Logo of the GiveUpGitHub campaign](https://sfconservancy.org/img/GiveUpGitHub.png)
+
+Everything in this repo should be considered out of date.
+
 # harvard-game50
 
 Update the game50 Love2D code for Love2D 11.
